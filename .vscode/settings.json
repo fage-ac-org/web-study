@@ -1,0 +1,10 @@
+{
+  // 优先使用 Prettier 作为默认格式化工具
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+  // 保存时自动格式化
+  "editor.formatOnSave": true,
+  // 保存时自动运行 Oxlint 修复
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit"
+  }
+}
