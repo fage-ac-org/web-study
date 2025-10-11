@@ -1,0 +1,59 @@
+name: 构建并部署到k8s
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: 设置node环境
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: 下载依赖
+        run: npm ci
+
+      - name: 项目构建
+        run: npm run build
+
+      - name: 镜像构建
+        uses: docker/setup-buildx-action@v3
+
+      - name: 登录仓库
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: 生成镜像Tag（时间戳）
+        id: tag
+        run: echo "TAG=$(date +'%Y%m%d%H%M')" >> $GITHUB_ENV
+
+      - name: 构建并上传镜像
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: |
+            fage520docker/web-study:latest
+            fage520docker/web-study:${{ env.TAG }}
+
+      - name: 设置kubeconfig
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+
+      - name: 部署到Kubernetes
+        run: |
+          kubectl set image deployment/web-study web-study=fage520docker/web-study:${{ env.TAG }} -n web
+          kubectl rollout status deployment/web-study -n web
