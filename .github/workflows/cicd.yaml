@@ -41,6 +41,7 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+          kubeconfig-base64: true
 
       - name: 部署到Kubernetes
         run: |
