@@ -11,7 +11,9 @@
     /* 覆盖基础配置的 noEmit，允许生成声明文件 */
     "noEmit": false,
     /* 仅生成声明文件 - Vite 负责 JS 构建 */
-    "emitDeclarationOnly": true
+    "emitDeclarationOnly": true,
+    /* 指定声明文件输出目录，避免覆盖源文件 */
+    "declarationDir": "./.types"
   },
   /* 包含所有应用源码文件 */
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
