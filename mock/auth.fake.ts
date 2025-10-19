@@ -24,7 +24,7 @@ const USERS = [
 
 export default defineFakeRoute([
   {
-    url: '/auth/login',
+    url: `/auth/login`,
     method: 'POST',
     response: (processed, _req, res) => {
       const body = processed.body as LoginBody

@@ -12,6 +12,7 @@ import { getToken, formatToken } from '@/utils/auth'
 const defaultConfig: AxiosRequestConfig = {
   // 请求超时时间
   timeout: 10000,
+  baseURL: import.meta.env.VITE_API_BASE,
   headers: {
     Accept: 'application/json, text/plain, */*',
     'Content-Type': 'application/json',

@@ -5,6 +5,7 @@ import { vitePluginFakeServer } from 'vite-plugin-fake-server'
 
 // https://vite.dev/config/
 export default defineConfig({
+  envDir: 'env',
   plugins: [
     vueRouter({
       routesFolder: ['src/views'], // 默认扫描的目录
@@ -12,7 +13,10 @@ export default defineConfig({
       extensions: ['.page.vue', '.vue', '.md']
     }),
     vue(),
-    vitePluginFakeServer()
+    vitePluginFakeServer({
+      include: 'mock', // 设置目标文件夹，将会引用该文件夹里包含xxx.fake.{ts,js,mjs,cjs,cts,mts}的文件
+      basename: 'api'
+    })
   ],
   resolve: {
     alias: {
