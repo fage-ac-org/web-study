@@ -1,5 +1,5 @@
 {
-  "plugins": ["react", "typescript"],
+  "plugins": ["vue", "typescript"],
   "rules": {
     // 基础 JavaScript 规则
     "no-var": "error",
@@ -16,7 +16,7 @@
 
     // 函数相关
     "prefer-rest-params": "error",
-    "max-params": ["error", 3],
+    "max-params": ["error", 6],
     "max-nested-callbacks": ["error", 3],
 
     // 代码风格和质量
@@ -26,14 +26,6 @@
     "prefer-object-spread": "error",
     "prefer-object-has-own": "error",
     "prefer-promise-reject-errors": "error",
-
-    // React 相关
-    "react/self-closing-comp": "error",
-    "react/jsx-no-useless-fragment": "error",
-    "react/no-unescaped-entities": "error",
-    "react/no-unknown-property": "error",
-    "react/jsx-curly-brace-presence": ["error", "never"],
-    "react/no-namespace": "error",
 
     // TypeScript 相关
     "typescript/no-require-imports": "error",

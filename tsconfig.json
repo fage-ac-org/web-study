@@ -17,7 +17,7 @@
   "files": [],
 
   /* 包含类型声明文件 */
-  "include": ["./types/typed-router.d.ts"],
+  "include": ["./types/typed-router.d.ts", "src/**/*.d.ts"],
 
   /* 项目引用配置 - 同时启用应用和 Node.js 配置 */
   "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
