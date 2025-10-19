@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    /* 基础编译选项 */
+    "target": "ES2023",
+    "module": "ESNext",
+    "skipLibCheck": true,
+
+    /* 模块解析 */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+
+    /* 严格类型检查(所有配置共享) */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUncheckedSideEffectImports": true
+  }
+}

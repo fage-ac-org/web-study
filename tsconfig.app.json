@@ -1,15 +1,16 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  /* 继承共享基础配置和 Vue DOM 类型 */
+  "extends": ["./tsconfig.base.json", "@vue/tsconfig/tsconfig.dom.json"],
   "compilerOptions": {
+    /* 应用程序构建信息文{ */
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "erasableSyntaxOnly": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    /* 启用项目引用支持 */
+    "composite": true,
+    /* 覆盖基础配置的 noEmit，允许生成声明文件 */
+    "noEmit": false,
+    /* 仅生成声明文件 - Vite 负责 JS 构建 */
+    "emitDeclarationOnly": true
   },
+  /* 包含所有应用源码文件 */
   "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

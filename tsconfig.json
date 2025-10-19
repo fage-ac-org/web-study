@@ -1,11 +1,10 @@
 {
+  /* 根配置文件,仅用于编辑器和项目引用,不直接编译代码 */
   "files": [],
-  "include": ["./typed-router.d.ts"],
-  "compilerOptions": {
-    "target": "ES2023",
-    "lib": ["ES2023"],
-    "moduleResolution": "bundler"
-  },
-  "references": [{ "path": "./tsconfig.node.json" }],
-  "types": ["unplugin-vue-router/client"]
+
+  /* 包含类型声明文件 */
+  "include": ["./types/typed-router.d.ts"],
+
+  /* 项目引用配置 - 同时启用应用和 Node.js 配置 */
+  "references": [{ "path": "./tsconfig.app.json" }, { "path": "./tsconfig.node.json" }]
 }

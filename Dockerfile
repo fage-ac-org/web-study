@@ -14,6 +14,8 @@ FROM nginx:1.27-alpine
 
 # 拷贝前端构建产物到nginx目录
 COPY --from=builder /app/dist /usr/share/nginx/html
+# 覆盖默认配置，启用单页应用路由回退
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
