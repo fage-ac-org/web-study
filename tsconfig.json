@@ -1,4 +1,18 @@
 {
+  /* 继承基础 TypeScript 选项，避免默认回退到 ES3 */
+  "extends": "./tsconfig.base.json",
+
+  "compilerOptions": {
+    /* 为根工程单独生成增量信息，方便项目引用 */
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.root.tsbuildinfo",
+    /* 确保内置库齐全，解决 Map/Set/WeakMap 等类型缺失 */
+    "lib": ["DOM", "DOM.Iterable", "ES2023"],
+    /* 根配置也需允许发射声明文件以配合引用 */
+    "noEmit": false,
+    "emitDeclarationOnly": true,
+    "composite": true
+  },
+
   /* 根配置文件,仅用于编辑器和项目引用,不直接编译代码 */
   "files": [],
 
