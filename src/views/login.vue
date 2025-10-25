@@ -1,45 +1,104 @@
 <template>
   <div class="login-page">
-    <form class="login-card" @submit.prevent="handleSubmit">
-      <h1>用户登录</h1>
-      <p class="hint">使用任意账号信息尝试登录，我们会通过假数据服务返回结果。</p>
+    <el-card class="login-card" shadow="hover">
+      <header class="login-card__header">
+        <h1>用户登录</h1>
+        <p>使用任意账号即可体验，我们会通过假数据服务返回结果。</p>
+      </header>
 
-      <label class="field">
-        <span>用户名</span>
-        <input v-model="form.username" type="text" placeholder="请输入用户名" required />
-      </label>
+      <el-form
+        ref="formRef"
+        :model="form"
+        :rules="rules"
+        size="large"
+        label-position="top"
+        @submit.prevent="handleSubmit"
+      >
+        <el-form-item label="用户名" prop="username">
+          <el-input
+            v-model="form.username"
+            placeholder="请输入用户名"
+            autocomplete="username"
+            :disabled="auth.loading"
+            clearable
+          />
+        </el-form-item>
 
-      <label class="field">
-        <span>密码</span>
-        <input v-model="form.password" type="password" placeholder="请输入密码" required />
-      </label>
+        <el-form-item label="密码" prop="password">
+          <el-input
+            v-model="form.password"
+            type="password"
+            placeholder="请输入密码"
+            autocomplete="current-password"
+            :disabled="auth.loading"
+            show-password
+          />
+        </el-form-item>
 
-      <button class="submit" type="submit" :disabled="auth.loading">
-        {{ auth.loading ? '登录中...' : '登录' }}
-      </button>
+        <el-button class="login-submit" type="primary" native-type="submit" :loading="auth.loading" block>
+          登录
+        </el-button>
+      </el-form>
 
-      <p v-if="auth.error" class="error">{{ auth.error }}</p>
-      <p v-if="success" class="success">登录成功，Token：{{ success.token }}</p>
-    </form>
+      <el-alert
+        v-if="auth.error"
+        type="error"
+        :closable="false"
+        show-icon
+        class="login-feedback"
+        title="登录失败"
+        :description="auth.error"
+      />
+
+      <el-alert v-if="success" type="success" :closable="false" show-icon class="login-feedback" title="登录成功">
+        <template #default>
+          <span>Token：{{ success.token }}</span>
+        </template>
+      </el-alert>
+    </el-card>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import type { FormInstance, FormRules } from 'element-plus'
 import { useAuthStore } from '@/stores/auth'
 
 const router = useRouter()
 const auth = useAuthStore()
+const formRef = ref<FormInstance>()
 const success = ref<{ token: string } | null>(null)
 
-const form = reactive({
+interface LoginForm {
+  username: string
+  password: string
+}
+
+const form = reactive<LoginForm>({
   username: '',
   password: ''
 })
 
+const rules: FormRules<LoginForm> = {
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, message: '用户名至少包含3个字符', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, message: '密码至少包含6个字符', trigger: 'blur' }
+  ]
+}
+
 const handleSubmit = async () => {
-  if (!form.username || !form.password) {
+  if (!formRef.value) {
+    return
+  }
+
+  try {
+    await formRef.value.validate()
+  } catch {
     return
   }
 
@@ -53,94 +112,60 @@ const handleSubmit = async () => {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .login-page {
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, #42b883, #2c3e50);
-  padding: 24px;
-  box-sizing: border-box;
+  padding: clamp(24px, 6vw, 64px);
+  background: linear-gradient(135deg, #42b883 0%, #2c3e50 100%);
+  display: grid;
+  place-items: center;
 }
 
 .login-card {
-  width: 100%;
-  max-width: 360px;
-  background: #fff;
-  border-radius: 16px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  padding: 32px 32px 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  @include responsive-card(300px, 440px);
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(17, 27, 45, 0.18);
+  backdrop-filter: blur(6px);
+
+  :deep(.el-card__body) {
+    padding: clamp(24px, 5vw, 48px);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
-.login-card h1 {
-  margin: 0;
-  font-size: 24px;
+.login-card__header {
   text-align: center;
+
+  h1 {
+    margin: 0 0 8px;
+    font-size: clamp(22px, 4vw, 28px);
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    font-size: clamp(14px, 3.2vw, 16px);
+    color: #5c6c7c;
+  }
 }
 
-.hint {
-  margin: 0;
-  font-size: 14px;
-  color: #666;
-  text-align: center;
+.login-submit {
+  margin-top: 12px;
 }
 
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.field span {
-  font-weight: 600;
-}
-
-.field input {
-  padding: 10px 12px;
-  border: 1px solid #dcdfe6;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-.submit {
-  margin-top: 8px;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  background-color: #42b883;
-  color: #fff;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.submit:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
-
-.submit:not(:disabled):hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 20px rgba(66, 184, 131, 0.25);
-}
-
-.error {
-  color: #d93025;
-  font-size: 14px;
-  text-align: center;
-}
-
-.success {
-  color: #42b883;
-  font-size: 14px;
+.login-feedback {
   word-break: break-all;
-  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .login-card {
+    border-radius: 16px;
+
+    :deep(.el-card__body) {
+      gap: 16px;
+    }
+  }
 }
 </style>

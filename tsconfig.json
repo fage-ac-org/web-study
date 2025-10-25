@@ -10,7 +10,8 @@
     /* 根配置也需允许发射声明文件以配合引用 */
     "noEmit": false,
     "emitDeclarationOnly": true,
-    "composite": true
+    "composite": true,
+    "types": ["node"]
   },
 
   /* 根配置文件,仅用于编辑器和项目引用,不直接编译代码 */

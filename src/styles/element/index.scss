@@ -1,0 +1,18 @@
+// 第一步：覆盖Element变量
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
+  $colors: (
+    'primary': (
+      'base': #1890ff,
+      // 新主色
+      'light': #69b1ff,
+      // 浅色变体
+      'dark': #096dd9,
+      // 深色变体
+    )
+  ),
+  $button: (
+    'border-radius': 6px // 按钮圆角变大
+  )
+);
+// 第二步：引入Element完整样式（基于新变量）
+@use 'element-plus/theme-chalk/src/index.scss' as *;

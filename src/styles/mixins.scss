@@ -1,0 +1,12 @@
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin responsive-card($min-width: 320px, $max-width: 480px) {
+  width: 100%;
+  max-width: $max-width;
+  min-width: $min-width;
+}

@@ -12,7 +12,13 @@
     "curly": "error",
 
     // 变量和类型相关
-    "new-cap": "error",
+    "new-cap": [
+      "error",
+      {
+        "capIsNew": false,
+        "capIsNewExceptions": ["ElMessage", "ElMessageBox", "ElNotification"]
+      }
+    ],
 
     // 函数相关
     "prefer-rest-params": "error",
