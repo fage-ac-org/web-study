@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+# commit-msg hook for commitlint
+# 这是一个Git钩子脚本，在每次提交时执行
+# 用于检查提交信息是否符合约定的格式规范
+
+# 使用npx运行commitlint工具检查提交信息
+# --no-install: 不安装包，直接使用已安装的版本
+# --edit "$1": 检查Git传递给钩子的提交信息文件
+# "$1" 是Git自动传递给钩子脚本的参数，包含提交信息的临时文件路径
+npx --no-install commitlint --edit "$1"

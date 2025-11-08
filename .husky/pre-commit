@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+# pre-commit hook for lint-staged
+# 这是一个Git钩子脚本，在每次提交前执行
+# 用于检查和格式化暂存区中的文件
+
+# 使用npx运行lint-staged工具
+# lint-staged会检查Git暂存区中的文件，只对被修改的文件运行配置的检查任务
+# 包括代码规范检查和自动格式化
+npx lint-staged
